@@ -19,7 +19,7 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          DOCKER_IMAGE=mvisonneau/tailscale
+          DOCKER_IMAGE=emmorts/tailscale
           VERSION=latest
 
           # If this is git tag, use the tag name as a docker tag
