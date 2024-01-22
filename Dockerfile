@@ -1,4 +1,4 @@
-FROM alpine:3.15
+FROM alpine:3.19
 
 ARG TARGETARCH
 ARG VERSION=1.56.1
