@@ -1,11 +1,19 @@
-FROM alpine:3.20 as builder
+FROM alpine:3.20 AS builder
 
 ARG TARGETARCH
 ARG VERSION=1.72.1
 
-RUN apk add --no-cache curl tar && \
-    curl -sL "https://pkgs.tailscale.com/stable/tailscale_${VERSION}_${TARGETARCH}.tgz" | \
-    tar -zxf - -C /tmp/tailscale --strip-components=1
+RUN set -ex; \
+    apk add --no-cache curl tar && \
+    mkdir -p /tmp/tailscale && \
+    echo "Downloading Tailscale version ${VERSION} for architecture ${TARGETARCH}" && \
+    curl -sSL --fail "https://pkgs.tailscale.com/stable/tailscale_${VERSION}_${TARGETARCH}.tgz" -o /tmp/tailscale.tgz && \
+    echo "Extracting Tailscale archive" && \
+    tar -xzf /tmp/tailscale.tgz -C /tmp/tailscale --strip-components=1 && \
+    echo "Verifying extracted files" && \
+    ls -la /tmp/tailscale && \
+    [ -f /tmp/tailscale/tailscaled ] && [ -f /tmp/tailscale/tailscale ] && \
+    echo "Tailscale binaries successfully extracted"
 
 FROM alpine:3.20
 
