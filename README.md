@@ -1,6 +1,6 @@
 # docker-tailscale
 
-Run Tailscale (agent/relay) in a container
+This is a fork of [mvisonneau/docker-tailscale](https://github.com/mvisonneau/docker-tailscale). The functionality is more or less the same - the only difference is that this version has a more robust entrypoint logic, that is able to handle the case where the container is restarted or fails to start.
 
 ## Usage
 
@@ -12,23 +12,9 @@ docker run -d \
   -v /dev/net/tun:/dev/net/tun \
   --network host \
   --privileged \
-  mvisonneau/tailscale
+  emmorts/tailscale
 ```
 
-### Kubernetes
-
-```bash
-# Add the helm repository to your local client
-~$ helm repo add mvisonneau https://charts.visonneau.fr
-
-# Install the relay
-~$ helm install \
-  tailscale-relay \
-  mvisonneau/tailscale-relay \
-  --set config.authKey=<your_auth_key>
-```
-
-More information on [how to use the chart here](https://github.com/mvisonneau/helm-charts/blob/main/charts/tailscale-relay).
 
 ## Credits
 
