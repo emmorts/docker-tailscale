@@ -1,6 +1,11 @@
 # docker-tailscale
 
-This is a fork of [mvisonneau/docker-tailscale](https://github.com/mvisonneau/docker-tailscale). The functionality is more or less the same - the only difference is that this version has a more robust entrypoint logic, that is able to handle the case where the container is restarted or fails to start.
+This is a fork of [mvisonneau/docker-tailscale](https://github.com/mvisonneau/docker-tailscale). 
+
+Since this is a very simple image, the only changes from the original repository are the following:
+- Retry logic for `tailscale up` in case of initial failure
+- Proper signal handling to ensure clean shutdown
+- Cleanup function to gracefully stop Tailscale on termination
 
 ## Usage
 
