@@ -1,7 +1,7 @@
 FROM alpine:3.20 AS builder
 
 ARG TARGETARCH
-ARG VERSION=1.72.1
+ARG VERSION=1.78.1
 
 RUN set -ex; \
     apk add --no-cache curl tar && \

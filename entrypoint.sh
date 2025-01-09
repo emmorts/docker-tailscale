@@ -3,7 +3,7 @@
 set -euo pipefail
 
 log() {
-  echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*" >&2
+  echo "$(date +'%Y/%m/%d %H:%M:%S') entrypoint: $*" >&2
 }
 
 cleanup() {
