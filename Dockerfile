@@ -1,9 +1,10 @@
-FROM alpine:3.20 AS builder
+FROM alpine:3.21 AS builder
 
 ARG TARGETARCH
 ARG VERSION=1.78.1
 
-RUN set -ex; \
+RUN --mount=type=cache,target=/var/cache/apk \
+    set -ex; \
     apk add --no-cache curl tar && \
     mkdir -p /tmp/tailscale && \
     echo "Downloading Tailscale version ${VERSION} for architecture ${TARGETARCH}" && \
@@ -15,12 +16,17 @@ RUN set -ex; \
     [ -f /tmp/tailscale/tailscaled ] && [ -f /tmp/tailscale/tailscale ] && \
     echo "Tailscale binaries successfully extracted"
 
-FROM alpine:3.20
+FROM alpine:3.21
 
 COPY --from=builder /tmp/tailscale/tailscaled /usr/local/bin/tailscaled
 COPY --from=builder /tmp/tailscale/tailscale /usr/local/bin/tailscale
 
-RUN apk add --no-cache iptables ip6tables iproute2 ca-certificates
+RUN --mount=type=cache,target=/var/cache/apk \
+    apk add --no-cache \
+        ca-certificates \
+        iptables \
+        ip6tables \
+        iproute2
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
