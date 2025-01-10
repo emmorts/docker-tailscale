@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-set -euo pipefail
+set -eu
 
 log() {
   echo "$(date +'%Y/%m/%d %H:%M:%S') entrypoint: $*" >&2
@@ -17,9 +17,9 @@ cleanup() {
 up() {
   log "Starting Tailscale..."
 
-  local retry_count=0
-  local max_retries=5
-  local retry_delay=5
+  retry_count=0
+  max_retries=5
+  retry_delay=5
 
   while [ $retry_count -lt $max_retries ]; do
     if tailscale up \
@@ -46,7 +46,7 @@ up() {
     else
       log "Failed to start Tailscale. Retrying in $retry_delay seconds..."
       sleep $retry_delay
-      ((retry_count++))
+      retry_count=$((retry_count + 1))
     fi
   done
 
