@@ -1,7 +1,7 @@
 FROM alpine:3.21 AS builder
 
 ARG TARGETARCH
-ARG VERSION=1.86.0
+ARG VERSION=1.86.2
 
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex; \
