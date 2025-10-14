@@ -1,7 +1,7 @@
-FROM alpine:3.21 AS builder
+FROM alpine:3.22 AS builder
 
 ARG TARGETARCH
-ARG VERSION=1.86.2
+ARG VERSION=1.88.3
 
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex; \
@@ -16,7 +16,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
     [ -f /tmp/tailscale/tailscaled ] && [ -f /tmp/tailscale/tailscale ] && \
     echo "Tailscale binaries successfully extracted"
 
-FROM alpine:3.21
+FROM alpine:3.22
 
 COPY --from=builder /tmp/tailscale/tailscaled /usr/local/bin/tailscaled
 COPY --from=builder /tmp/tailscale/tailscale /usr/local/bin/tailscale
