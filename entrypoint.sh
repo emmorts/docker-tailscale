@@ -53,6 +53,49 @@ append_flag_value_from_env() {
   fi
 }
 
+if ! first_set_env TAILSCALE_ACCEPT_DNS TS_ACCEPT_DNS >/dev/null 2>&1; then
+  TAILSCALE_ACCEPT_DNS="true"
+fi
+if ! first_set_env TAILSCALE_ACCEPT_ROUTES TS_ACCEPT_ROUTES >/dev/null 2>&1; then
+  TAILSCALE_ACCEPT_ROUTES="false"
+fi
+if ! first_set_env TAILSCALE_ADVERTISE_CONNECTOR TS_ADVERTISE_CONNECTOR >/dev/null 2>&1; then
+  TAILSCALE_ADVERTISE_CONNECTOR="false"
+fi
+if ! first_set_env TAILSCALE_ADVERTISE_EXIT_NODE TS_ADVERTISE_EXIT_NODE >/dev/null 2>&1; then
+  TAILSCALE_ADVERTISE_EXIT_NODE="false"
+fi
+if ! first_set_env TAILSCALE_EXIT_NODE_ALLOW_LAN_ACCESS TS_EXIT_NODE_ALLOW_LAN_ACCESS >/dev/null 2>&1; then
+  TAILSCALE_EXIT_NODE_ALLOW_LAN_ACCESS="false"
+fi
+if ! first_set_env TAILSCALE_FORCE_REAUTH TS_FORCE_REAUTH >/dev/null 2>&1; then
+  TAILSCALE_FORCE_REAUTH="false"
+fi
+if ! first_set_env TAILSCALE_HOST_ROUTES TS_HOST_ROUTES >/dev/null 2>&1; then
+  TAILSCALE_HOST_ROUTES="true"
+fi
+if ! first_set_env TAILSCALE_HOSTNAME TS_HOSTNAME >/dev/null 2>&1; then
+  TAILSCALE_HOSTNAME="$(hostname)"
+fi
+if ! first_set_env TAILSCALE_LOGIN_SERVER TS_LOGIN_SERVER >/dev/null 2>&1; then
+  TAILSCALE_LOGIN_SERVER="https://login.tailscale.com"
+fi
+if ! first_set_env TAILSCALE_NETFILTER_MODE TS_NETFILTER_MODE >/dev/null 2>&1; then
+  TAILSCALE_NETFILTER_MODE="on"
+fi
+if ! first_set_env TAILSCALE_QR TS_QR >/dev/null 2>&1; then
+  TAILSCALE_QR="false"
+fi
+if ! first_set_env TAILSCALE_SHIELDS_UP TS_SHIELDS_UP >/dev/null 2>&1; then
+  TAILSCALE_SHIELDS_UP="false"
+fi
+if ! first_set_env TAILSCALE_SNAT_SUBNET_ROUTES TS_SNAT_SUBNET_ROUTES >/dev/null 2>&1; then
+  TAILSCALE_SNAT_SUBNET_ROUTES="true"
+fi
+if ! first_set_env TAILSCALE_SSH TS_SSH >/dev/null 2>&1; then
+  TAILSCALE_SSH="false"
+fi
+
 if state_dir_value=$(first_set_env TAILSCALED_STATE_DIR TS_STATE_DIR); then
   TAILSCALED_STATE_DIR="$state_dir_value"
 else
