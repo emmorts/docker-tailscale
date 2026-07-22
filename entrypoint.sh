@@ -35,7 +35,9 @@ append_flag_equals_from_env() {
   shift
 
   if flag_value=$(first_set_env "$@"); then
-    append_word "${flag_name}=${flag_value}"
+    if [ -n "$flag_value" ]; then
+      append_word "${flag_name}=${flag_value}"
+    fi
   fi
 }
 
@@ -44,8 +46,10 @@ append_flag_value_from_env() {
   shift
 
   if flag_value=$(first_set_env "$@"); then
-    append_word "$flag_name"
-    append_word "$flag_value"
+    if [ -n "$flag_value" ]; then
+      append_word "$flag_name"
+      append_word "$flag_value"
+    fi
   fi
 }
 
