@@ -4,6 +4,7 @@ ARG TARGETARCH
 ARG VERSION=1.98.9
 ARG TAILSCALE_SHA256_AMD64=11be30ad301d48f84ff52fec34f8a2f78eb3e3dee1be4e9624d19fccc8df5540
 ARG TAILSCALE_SHA256_ARM64=fa554ee808d7d07ee8e3ebbc0215ea087157e2a0abbf408e6e18ea7532554db6
+ARG TAILSCALE_SHA256_ARM=2269fd75206e438d4e56e7d8ae1f48def6a3b1c00717664c861108bdd7fa1e33
 
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex; \
@@ -12,6 +13,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
     case "${TARGETARCH}" in \
       amd64) tailscale_sha256="${TAILSCALE_SHA256_AMD64}" ;; \
       arm64) tailscale_sha256="${TAILSCALE_SHA256_ARM64}" ;; \
+      arm) tailscale_sha256="${TAILSCALE_SHA256_ARM}" ;; \
       *) echo "Unsupported TARGETARCH: ${TARGETARCH}" >&2; exit 1 ;; \
     esac && \
     echo "Downloading Tailscale version ${VERSION} for architecture ${TARGETARCH}" && \
