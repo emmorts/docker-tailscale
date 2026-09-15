@@ -57,8 +57,9 @@ fi
 
 amd64_sha=$(fetch_sha256 "$version" amd64)
 arm64_sha=$(fetch_sha256 "$version" arm64)
+arm_sha=$(fetch_sha256 "$version" arm)
 
-if [ -z "$amd64_sha" ] || [ -z "$arm64_sha" ]; then
+if [ -z "$amd64_sha" ] || [ -z "$arm64_sha" ] || [ -z "$arm_sha" ]; then
   echo "Failed to fetch required checksums for version $version" >&2
   exit 1
 fi
@@ -66,9 +67,11 @@ fi
 require_line 'ARG VERSION='
 require_line 'ARG TAILSCALE_SHA256_AMD64='
 require_line 'ARG TAILSCALE_SHA256_ARM64='
+require_line 'ARG TAILSCALE_SHA256_ARM='
 
 update_arg_line "$DOCKERFILE_PATH" VERSION "$version"
 update_arg_line "$DOCKERFILE_PATH" TAILSCALE_SHA256_AMD64 "$amd64_sha"
 update_arg_line "$DOCKERFILE_PATH" TAILSCALE_SHA256_ARM64 "$arm64_sha"
+update_arg_line "$DOCKERFILE_PATH" TAILSCALE_SHA256_ARM "$arm_sha"
 
 echo "Updated $DOCKERFILE_PATH to Tailscale $version"

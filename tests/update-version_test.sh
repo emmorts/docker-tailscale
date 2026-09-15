@@ -37,11 +37,17 @@ HTML
   https://pkgs.tailscale.com/stable/tailscale_1.100.0_arm64.tgz.sha256)
     printf '%s\n' 'arm64-latest-sha'
     ;;
+  https://pkgs.tailscale.com/stable/tailscale_1.100.0_arm.tgz.sha256)
+    printf '%s\n' 'arm-latest-sha'
+    ;;
   https://pkgs.tailscale.com/stable/tailscale_1.77.3_amd64.tgz.sha256)
     printf '%s\n' 'amd64-explicit-sha'
     ;;
   https://pkgs.tailscale.com/stable/tailscale_1.77.3_arm64.tgz.sha256)
     printf '%s\n' 'arm64-explicit-sha'
+    ;;
+  https://pkgs.tailscale.com/stable/tailscale_1.77.3_arm.tgz.sha256)
+    printf '%s\n' 'arm-explicit-sha'
     ;;
   *)
     echo "unexpected url: \$url" >&2
@@ -61,6 +67,7 @@ FROM alpine:3.22 AS builder
 ARG VERSION=1.98.4
 ARG TAILSCALE_SHA256_AMD64=old-amd64
 ARG TAILSCALE_SHA256_ARM64=old-arm64
+ARG TAILSCALE_SHA256_ARM=old-arm
 EOF
 }
 
@@ -80,6 +87,8 @@ test_defaults_to_latest_version() {
     fail "script did not update latest amd64 checksum"
   grep -Fx 'ARG TAILSCALE_SHA256_ARM64=arm64-latest-sha' "$tmpdir/Dockerfile" >/dev/null ||
     fail "script did not update latest arm64 checksum"
+  grep -Fx 'ARG TAILSCALE_SHA256_ARM=arm-latest-sha' "$tmpdir/Dockerfile" >/dev/null ||
+    fail "script did not update latest arm checksum"
 
   rm -rf "$tmpdir"
   trap - EXIT INT TERM
@@ -101,6 +110,8 @@ test_accepts_explicit_version() {
     fail "script did not update explicit amd64 checksum"
   grep -Fx 'ARG TAILSCALE_SHA256_ARM64=arm64-explicit-sha' "$tmpdir/Dockerfile" >/dev/null ||
     fail "script did not update explicit arm64 checksum"
+  grep -Fx 'ARG TAILSCALE_SHA256_ARM=arm-explicit-sha' "$tmpdir/Dockerfile" >/dev/null ||
+    fail "script did not update explicit arm checksum"
   if grep -Fx 'https://pkgs.tailscale.com/stable/' "$tmpdir/curl.log" >/dev/null 2>&1; then
     fail "script should not fetch latest index when explicit version is provided"
   fi
